@@ -1,0 +1,4 @@
+Manejo de temas oscuro y claro
+
+Cada codigo que esta aca es el manejo de colores para el modo Claro y Oscuro de cada widget que se usara
+Por ejemplo: El CheckBox, el Appbar, etc, etc.

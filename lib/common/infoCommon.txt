@@ -1,0 +1,1 @@
+Se maneja todos los tipos de estilos comunes y widgets o demas.

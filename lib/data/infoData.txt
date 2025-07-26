@@ -1,0 +1,3 @@
+Manejo del BackEnd En esta zona
+Services para tema de API y servicios de pago
+Repositories tema de conexion a Mongo consultas (creo yo), etc

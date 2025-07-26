@@ -1,0 +1,2 @@
+Bindings se encarga de ayudar al manejo de las rutas con Get
+inyectando dependecias para acceder a las rutas

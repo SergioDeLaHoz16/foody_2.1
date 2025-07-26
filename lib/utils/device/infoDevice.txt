@@ -1,0 +1,3 @@
+Todo lo relacionado con las funciones del
+dispositivo
+(Siempre Horizontal, Modo Claro y Oscuro, etc)
