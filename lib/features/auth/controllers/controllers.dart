@@ -97,27 +97,22 @@ class AuthController {
     return missingFields;
   }
 
-  Future<void> registerUser(BuildContext context) async {
+  Future<bool> registerUser() async {
     List<String> missingFields = getMissingFields();
-    if (missingFields.isEmpty) {
-      final success = await _authService.createUser(_user);
-      if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Usuario registrado exitosamente')),
-        );
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error al registrar usuario')));
-      }
+
+    if (missingFields.isNotEmpty) {
+      // Faltan campos
+      print('Faltan los siguientes campos: ${missingFields.join(', ')}');
+      return false;
+    }
+
+    final success = await _authService.createUser(_user);
+    if (success) {
+      print('Usuario registrado exitosamente');
+      return true;
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Faltan los siguientes campos: ${missingFields.join(', ')}',
-          ),
-        ),
-      );
+      print('Error al registrar usuario');
+      return false;
     }
   }
 
@@ -130,58 +125,63 @@ class AuthController {
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
-  final googleUser = await GoogleAuthService.signInWithGoogle();
-  if (googleUser != null) {
-    final email = googleUser.email;
-    final name = googleUser.displayName ?? 'Usuario';
+    final googleUser = await GoogleAuthService.signInWithGoogle();
+    if (googleUser != null) {
+      final email = googleUser.email;
+      final name = googleUser.displayName ?? 'Usuario';
 
-    // Verificar si el usuario ya existe en MongoDB
-    final collection = MongoDBHelper.db.collection('users');
-    final existingUser = await collection.findOne({'correo': email});
+      // Verificar si el usuario ya existe en MongoDB
+      final collection = MongoDBHelper.db.collection('users');
+      final existingUser = await collection.findOne({'correo': email});
 
-    if (existingUser == null) {
-      // Si el usuario no existe, crearlo en MongoDB
-      final defaultFechaNacimiento = DateTime(2002, 2, 1);
-      final newUser = UserModel(nombre: name, correo: email, contrasena: '',fechaNacimiento: defaultFechaNacimiento,);
-      await collection.insert(newUser.toJson());
-      print('Usuario creado en MongoDB: $name');
+      if (existingUser == null) {
+        // Si el usuario no existe, crearlo en MongoDB
+        final defaultFechaNacimiento = DateTime(2002, 2, 1);
+        final newUser = UserModel(
+          nombre: name,
+          correo: email,
+          contrasena: '',
+          fechaNacimiento: defaultFechaNacimiento,
+        );
+        await collection.insert(newUser.toJson());
+        print('Usuario creado en MongoDB: $name');
 
-      // Actualizar el modelo _user con los datos del nuevo usuario
-      _user.nombre = name;
-      _user.correo = email;
-      _user.fechaNacimiento = defaultFechaNacimiento; 
+        // Actualizar el modelo _user con los datos del nuevo usuario
+        _user.nombre = name;
+        _user.correo = email;
+        _user.fechaNacimiento = defaultFechaNacimiento;
+      } else {
+        print('Usuario ya existe en MongoDB: $name');
 
+        // Actualizar el modelo _user con los datos del usuario existente
+        _user.nombre = existingUser['nombre'];
+        _user.apellido = existingUser['apellido'];
+        _user.correo = existingUser['correo'];
+        _user.celular = existingUser['celular'];
+        _user.cedula = existingUser['cedula'];
+        _user.fechaNacimiento =
+            existingUser['fechaNacimiento'] != null
+                ? DateTime.parse(existingUser['fechaNacimiento'])
+                : DateTime(2002, 2, 1);
+        _user.pais = existingUser['pais'];
+        _user.departamento = existingUser['departamento'];
+        _user.municipio = existingUser['municipio'];
+        _user.direccion = existingUser['direccion'];
+        _user.barrio = existingUser['barrio'];
+        _user.contrasena = existingUser['contrasena'];
+        _user.status = existingUser['status'] ?? 'FREE'; // <-- AQUÍ
+      }
+
+      // Navegar a la pantalla principal
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const NavigationScreen()),
+      );
     } else {
-      print('Usuario ya existe en MongoDB: $name');
-
-      // Actualizar el modelo _user con los datos del usuario existente
-      _user.nombre = existingUser['nombre'];
-      _user.apellido = existingUser['apellido'];
-      _user.correo = existingUser['correo'];
-      _user.celular = existingUser['celular'];
-      _user.cedula = existingUser['cedula'];
-      _user.fechaNacimiento = existingUser['fechaNacimiento'] != null
-          ? DateTime.parse(existingUser['fechaNacimiento'])
-          : DateTime(2002, 2, 1);
-      _user.pais = existingUser['pais'];
-      _user.departamento = existingUser['departamento'];
-      _user.municipio = existingUser['municipio'];
-      _user.direccion = existingUser['direccion'];
-      _user.barrio = existingUser['barrio'];
-      _user.contrasena = existingUser['contrasena'];
-      _user.status = existingUser['status'] ?? 'FREE'; // <-- AQUÍ
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al iniciar sesión con Google')),
+      );
     }
-
-    // Navegar a la pantalla principal
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const NavigationScreen()),
-    );
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Error al iniciar sesión con Google')),
-    );
   }
-}
 
   Future<void> signOut() async {
     await GoogleAuthService.signOut();
@@ -189,52 +189,53 @@ class AuthController {
   }
 
   Future<void> updateStatus(String status) async {
-  final collection = MongoDBHelper.db.collection('users');
-  await collection.updateOne(
-    {'correo': _user.correo},
-    {'\$set': {'status': status}},
-  );
-  _user.status = status;
-}
+    final collection = MongoDBHelper.db.collection('users');
+    await collection.updateOne(
+      {'correo': _user.correo},
+      {
+        '\$set': {'status': status},
+      },
+    );
+    _user.status = status;
+  }
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
-  try {
-    final collection = MongoDBHelper.db.collection('users');
-    final user = await collection.findOne({
-      'correo': email,
-      'contrasena': password, // Asegúrate de cifrar las contraseñas en la base de datos
-    });
+    try {
+      final collection = MongoDBHelper.db.collection('users');
+      final user = await collection.findOne({
+        'correo': email,
+        'contrasena':
+            password, // Asegúrate de cifrar las contraseñas en la base de datos
+      });
 
-    if (user != null) {
-      print('Usuario autenticado: ${user['nombre']}');
-      
-      // Actualizar el modelo _user con los datos del usuario autenticado
-      _user.nombre = user['nombre'];
-      _user.apellido = user['apellido'];
-      _user.correo = user['correo'];
-      _user.celular = user['celular'];
-      _user.cedula = user['cedula'];
-      _user.fechaNacimiento = DateTime.parse(user['fechaNacimiento']);
-      _user.pais = user['pais'];
-      _user.departamento = user['departamento'];
-      _user.municipio = user['municipio'];
-      _user.direccion = user['direccion'];
-      _user.barrio = user['barrio'];
-      _user.contrasena = user['contrasena'];
-      _user.status = user['status'] ?? 'FREE'; // <-- AQUÍ
-      print('Correo asignado al modelo _user: ${_user.correo}');
-      return true;
-    } else {
-      print('Credenciales incorrectas');
+      if (user != null) {
+        print('Usuario autenticado: ${user['nombre']}');
+
+        // Actualizar el modelo _user con los datos del usuario autenticado
+        _user.nombre = user['nombre'];
+        _user.apellido = user['apellido'];
+        _user.correo = user['correo'];
+        _user.celular = user['celular'];
+        _user.cedula = user['cedula'];
+        _user.fechaNacimiento = DateTime.parse(user['fechaNacimiento']);
+        _user.pais = user['pais'];
+        _user.departamento = user['departamento'];
+        _user.municipio = user['municipio'];
+        _user.direccion = user['direccion'];
+        _user.barrio = user['barrio'];
+        _user.contrasena = user['contrasena'];
+        _user.status = user['status'] ?? 'FREE'; // <-- AQUÍ
+        print('Correo asignado al modelo _user: ${_user.correo}');
+        return true;
+      } else {
+        print('Credenciales incorrectas');
+        return false;
+      }
+    } catch (e) {
+      print('Error al autenticar usuario: $e');
       return false;
     }
-  } catch (e) {
-    print('Error al autenticar usuario: $e');
-    return false;
   }
-  }
-
-  
 
   /// Actualiza la contraseña de un usuario por correo electrónico.
   Future<bool> updatePassword(String email, String newPassword) async {
@@ -242,7 +243,9 @@ class AuthController {
       final collection = MongoDBHelper.db.collection('users');
       final result = await collection.updateOne(
         {'correo': email},
-        {'\$set': {'contrasena': newPassword}},
+        {
+          '\$set': {'contrasena': newPassword},
+        },
       );
       if (result.isSuccess) {
         // Opcional: actualiza el modelo local si corresponde
@@ -259,24 +262,25 @@ class AuthController {
   }
 
   Future<void> reloadUser() async {
-  final collection = MongoDBHelper.db.collection('users');
-  final user = await collection.findOne({'correo': _user.correo});
-  if (user != null) {
-    _user.nombre = user['nombre'];
-    _user.apellido = user['apellido'];
-    _user.correo = user['correo'];
-    _user.celular = user['celular'];
-    _user.cedula = user['cedula'];
-    _user.fechaNacimiento = user['fechaNacimiento'] != null
-        ? DateTime.parse(user['fechaNacimiento'])
-        : null;
-    _user.pais = user['pais'];
-    _user.departamento = user['departamento'];
-    _user.municipio = user['municipio'];
-    _user.direccion = user['direccion'];
-    _user.barrio = user['barrio'];
-    _user.contrasena = user['contrasena'];
-    _user.status = user['status'] ?? 'FREE';
+    final collection = MongoDBHelper.db.collection('users');
+    final user = await collection.findOne({'correo': _user.correo});
+    if (user != null) {
+      _user.nombre = user['nombre'];
+      _user.apellido = user['apellido'];
+      _user.correo = user['correo'];
+      _user.celular = user['celular'];
+      _user.cedula = user['cedula'];
+      _user.fechaNacimiento =
+          user['fechaNacimiento'] != null
+              ? DateTime.parse(user['fechaNacimiento'])
+              : null;
+      _user.pais = user['pais'];
+      _user.departamento = user['departamento'];
+      _user.municipio = user['municipio'];
+      _user.direccion = user['direccion'];
+      _user.barrio = user['barrio'];
+      _user.contrasena = user['contrasena'];
+      _user.status = user['status'] ?? 'FREE';
+    }
   }
-}
 }

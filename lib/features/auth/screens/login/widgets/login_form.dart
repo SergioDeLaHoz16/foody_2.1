@@ -4,6 +4,7 @@ import 'package:foody/common/widgets/login/TextDivider.dart';
 import 'package:foody/common/widgets/text_button.dart';
 import 'package:foody/features/auth/screens/Recover%20password/recover_password.dart';
 import 'package:foody/features/auth/screens/signup/signup_page.dart';
+// import 'package:foody/features/auth/screens/signup/signup_page_1.dart';
 import 'package:foody/features/navigation/navigation.dart';
 import 'package:foody/utils/constants/images_strings.dart';
 import 'package:foody/utils/helpers/helper_functions.dart';
@@ -53,7 +54,6 @@ class _LoginFormState extends State<LoginForm> {
       );
 
       if (success) {
-    
         if (_authController.user.correo != null &&
             _authController.user.correo!.isNotEmpty) {
           Navigator.of(context).pushReplacement(
