@@ -5,7 +5,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:foody/features/auth/controllers/controllers.dart';
 
 class PersonalInfoSection extends StatefulWidget {
-  const PersonalInfoSection({super.key});
+  final PageController pageController;
+
+  const PersonalInfoSection({super.key, required this.pageController});
 
   @override
   State<PersonalInfoSection> createState() => _PersonalInfoSectionState();
@@ -21,8 +23,8 @@ class _PersonalInfoSectionState extends State<PersonalInfoSection> {
       sectionTitle: 'Acerca de ti',
       sectionSubtitle:
           'Ingrese sus datos a continuación para crear su cuenta y comenzar.',
+      pageController: widget.pageController,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

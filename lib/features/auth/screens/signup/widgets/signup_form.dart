@@ -16,11 +16,11 @@ class _SignUpFormState extends State<SignUpForm> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [
-    PersonalInfoSection(),
-    EmailPasswordSection(),
-    AddressSection(),
-    TermsAndSubmitSection(),
+  List<Widget> get _pages => [
+    PersonalInfoSection(pageController: _pageController),
+    EmailPasswordSection(pageController: _pageController),
+    // AddressSection(pageController: _pageController),
+    // TermsAndSubmitSection(pageController: _pageController),
   ];
 
   void _nextPage() {
@@ -61,21 +61,36 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Row(
-            children: [
-              // if (!isFirstPage)
-              //   Expanded(
-              //     child: WButton(label: 'Atrás', onPressed: _previousPage),
-              //   ),
-              if (!isFirstPage) const SizedBox(width: 12),
-              Expanded(
-                child: WButton(
-                  label: isLastPage ? 'Finalizar' : 'Siguiente',
-                  onPressed: _nextPage,
-                ),
-              ),
-            ],
-          ),
+          child:
+              isFirstPage
+                  ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: WButton(
+                          label: 'Siguiente',
+                          onPressed: _nextPage,
+                        ),
+                      ),
+                    ],
+                  )
+                  : Row(
+                    children: [
+                      // Expanded(
+                      //   child: WButton(
+                      //     label: 'Atrás',
+                      //     onPressed: _previousPage,
+                      //   ),
+                      // ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: WButton(
+                          label: isLastPage ? 'Finalizar' : 'Siguiente',
+                          onPressed: _nextPage,
+                        ),
+                      ),
+                    ],
+                  ),
         ),
       ],
     );

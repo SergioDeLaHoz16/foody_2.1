@@ -6,12 +6,14 @@ class SectionLayout extends StatelessWidget {
   final String sectionTitle;
   final String? sectionSubtitle;
   final Widget child;
+  final PageController? pageController;
 
   const SectionLayout({
     super.key,
     required this.sectionTitle,
     required this.sectionSubtitle,
     required this.child,
+    this.pageController,
   });
 
   @override
@@ -26,32 +28,40 @@ class SectionLayout extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Botón de retroceso en la esquina superior izquierda
           Padding(
             padding: const EdgeInsets.only(left: 8, top: 16),
             child: IconButton(
               icon: const Icon(Icons.arrow_back),
               color: isDark ? CColors.light : CColors.primaryTextColor,
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                if (pageController != null &&
+                    pageController!.hasClients &&
+                    pageController!.page! > 0) {
+                  pageController!.previousPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
             ),
           ),
-
-          const SizedBox(height: 8),
-
-          // Contenido central alineado
+          const SizedBox(height: 10),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Image.asset(logoAsset, height: 100),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 25),
                   Text(
                     'Registro',
                     style: theme.textTheme.headlineLarge?.copyWith(
                       color: isDark ? CColors.light : CColors.primaryColor,
                     ),
                   ),
+                  const SizedBox(height: 10),
                   Text(
                     'Section - $sectionTitle',
                     style: theme.textTheme.titleLarge?.copyWith(
@@ -59,7 +69,7 @@ class SectionLayout extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   Text(
                     sectionSubtitle ?? '',
                     textAlign: TextAlign.center,
@@ -74,8 +84,6 @@ class SectionLayout extends StatelessWidget {
               ),
             ),
           ),
-
-          // Sección del contenido dinámico (formulario)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: child,
