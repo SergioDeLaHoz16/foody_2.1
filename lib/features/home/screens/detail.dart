@@ -36,7 +36,7 @@ extension DateTimeExtensions on DateTime {
 class RecipeDetailPage extends StatefulWidget {
   final String recipeId;
 
-  const RecipeDetailPage({Key? key, required this.recipeId}) : super(key: key);
+  const RecipeDetailPage({super.key, required this.recipeId});
 
   @override
   State<RecipeDetailPage> createState() => _RecipeDetailPageState();
@@ -78,7 +78,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
       final userProducts = products.where(
         (p) =>
             (p.createdBy == userEmail) &&
-            (p.expiryDate == null || p.expiryDate!.isAfter(now)),
+            (p.expiryDate.isAfter(now)),
       );
       // Sumar cantidades por nombre de producto
       final Map<String, num> ingredientQuantities = {};
@@ -555,7 +555,7 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
                             ),
                           ),
                         );
-                      }).toList(),
+                      }),
 
                       // Positioned(
                       //   left: 0,

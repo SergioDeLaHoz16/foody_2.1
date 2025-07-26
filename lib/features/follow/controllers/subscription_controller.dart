@@ -10,7 +10,7 @@ class SubscriptionController {
   Future<void> loadUserProfile(String correo) async {
     viewedUser = await SubscriptionService().fetchUserProfile(correo);
     // Verifica el status directamente del perfil
-    isSubscribed = (viewedUser.status?.toUpperCase() == "SUSCRITO");
+    isSubscribed = (viewedUser.status.toUpperCase() == "SUSCRITO");
     if (isSubscribed) {
       userRecipes = await SubscriptionService().fetchUserRecipes(correo);
     }

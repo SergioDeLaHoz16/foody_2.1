@@ -8,10 +8,10 @@ class CommentScreen extends StatefulWidget {
   final List<Comment> comments;
 
   const CommentScreen({
-    Key? key,
+    super.key,
     required this.recipeId,
     required this.comments,
-  }) : super(key: key);
+  });
 
   @override
   State<CommentScreen> createState() => _CommentScreenState();

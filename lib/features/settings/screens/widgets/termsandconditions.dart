@@ -3,6 +3,8 @@ import 'package:foody/utils/constants/colors.dart';
 import 'package:foody/utils/helpers/helper_functions.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
+  const TermsAndConditionsScreen({super.key});
+
   @override
   _TermsAndConditionsScreenState createState() =>
       _TermsAndConditionsScreenState();

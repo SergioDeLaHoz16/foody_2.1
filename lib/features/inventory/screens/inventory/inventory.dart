@@ -21,7 +21,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
   final InventoryService _inventoryService = InventoryService();
   late Future<List<Product>> _productsFuture;
   String _selectedCategory = 'Todos';
-  bool _isExpanded = false;
+  final bool _isExpanded = false;
   final Set<int> _expandedIndexes = {};
 
   @override

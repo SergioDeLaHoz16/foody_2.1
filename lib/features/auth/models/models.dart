@@ -15,7 +15,6 @@ class UserModel {
   String? avatarUrl;
   String? status;
 
-  // NUEVOS CAMPOS PARA PERFIL DE SUSCRIPCIÓN
   String? descripcion;
   double? valorMensual;
   double? rating;

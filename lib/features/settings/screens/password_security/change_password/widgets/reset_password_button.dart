@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foody/features/settings/screens/password_security/password_security_screen.dart';
 
 class ResetPasswordButton extends StatelessWidget {
   final bool enabled;

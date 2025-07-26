@@ -10,7 +10,6 @@ import 'package:foody/utils/helpers/helper_functions.dart';
 import 'package:foody/utils/validators/validators.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:foody/data/services/auth_service.dart';
 import 'package:foody/features/auth/controllers/controllers.dart';
 
 class LoginForm extends StatefulWidget {
@@ -54,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
       );
 
       if (success) {
-        // Asegúrate de que los datos del usuario estén disponibles antes de navegar
+    
         if (_authController.user.correo != null &&
             _authController.user.correo!.isNotEmpty) {
           Navigator.of(context).pushReplacement(

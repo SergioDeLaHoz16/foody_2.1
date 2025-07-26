@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foody/utils/constants/colors.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class THelperFunctions {
   THelperFunctions._();

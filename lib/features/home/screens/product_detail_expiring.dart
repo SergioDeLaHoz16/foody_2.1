@@ -8,8 +8,7 @@ import 'package:foody/utils/helpers/helper_functions.dart';
 class ProductDetailExpiringScreen extends StatelessWidget {
   final Product product;
 
-  const ProductDetailExpiringScreen({Key? key, required this.product})
-    : super(key: key);
+  const ProductDetailExpiringScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

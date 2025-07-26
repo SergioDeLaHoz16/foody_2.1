@@ -8,11 +8,11 @@ class DateField extends StatelessWidget {
   final VoidCallback onTap;
 
   const DateField({
-    Key? key,
+    super.key,
     required this.label,
     required this.text,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

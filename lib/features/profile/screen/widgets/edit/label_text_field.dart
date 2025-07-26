@@ -8,11 +8,11 @@ class LabeledTextField extends StatelessWidget {
   final String? suffix;
 
   const LabeledTextField({
-    Key? key,
+    super.key,
     required this.label,
     required this.controller,
     this.suffix,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

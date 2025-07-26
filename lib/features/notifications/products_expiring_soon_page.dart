@@ -4,8 +4,7 @@ import 'package:foody/features/inventory/models/models.dart';
 class ProductsExpiringSoonPage extends StatelessWidget {
   final List<Product> products;
 
-  const ProductsExpiringSoonPage({Key? key, required this.products})
-    : super(key: key);
+  const ProductsExpiringSoonPage({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {

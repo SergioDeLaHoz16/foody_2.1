@@ -76,7 +76,7 @@ class _SubscriptionPageState extends State<SubscriptionPage> {
         },
       );
 
-      print("response from API = " + responseFromStripeAPI.body);
+      print("response from API = ${responseFromStripeAPI.body}");
 
       return jsonDecode(responseFromStripeAPI.body);
     } catch (errorMsg) {

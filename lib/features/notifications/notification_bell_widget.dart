@@ -8,10 +8,10 @@ class NotificationBellWidget extends StatefulWidget {
   final String userEmail;
 
   const NotificationBellWidget({
-    Key? key,
+    super.key,
     required this.userProducts,
     required this.userEmail,
-  }) : super(key: key);
+  });
 
   @override
   State<NotificationBellWidget> createState() => _NotificationBellWidgetState();

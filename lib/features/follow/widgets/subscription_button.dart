@@ -15,11 +15,11 @@ class StyledSubscriptionButton extends StatefulWidget {
   final String priceText;
 
   const StyledSubscriptionButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.isSubscribed = false,
     this.priceText = '\$ 40.000/mes',
-  }) : super(key: key);
+  });
 
   @override
   State<StyledSubscriptionButton> createState() =>

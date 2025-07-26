@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'document_card.dart';
 
 class DocumentDetailsSection extends StatelessWidget {
-  const DocumentDetailsSection({Key? key}) : super(key: key);
+  const DocumentDetailsSection({super.key});
 
   @override
   Widget build(BuildContext context) {

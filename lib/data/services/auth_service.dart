@@ -1,7 +1,5 @@
 import 'package:foody/features/auth/models/models.dart';
 import 'package:foody/data/repositories/mongodb_helper.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 
 class AuthService {
   Future<bool> createUser(UserModel user) async {

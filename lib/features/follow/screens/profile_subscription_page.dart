@@ -22,12 +22,12 @@ class ProfileSubscriptionPage extends StatefulWidget {
   final String avatarUrl;
 
   const ProfileSubscriptionPage({
-    Key? key,
+    super.key,
     required this.correo,
     required this.nombre,
     required this.apellido,
     required this.avatarUrl,
-  }) : super(key: key);
+  });
 
   @override
   State<ProfileSubscriptionPage> createState() =>
@@ -330,13 +330,13 @@ class UserInfoCard extends StatelessWidget {
   final String fechaRegistro;
 
   const UserInfoCard({
-    Key? key,
+    super.key,
     required this.nombre,
     required this.email,
     required this.telefono,
     required this.ubicacion,
     required this.fechaRegistro,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

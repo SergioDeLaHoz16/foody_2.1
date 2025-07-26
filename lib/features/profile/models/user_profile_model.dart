@@ -8,32 +8,38 @@ class UserProfile extends UserModel {
   final String username;
 
   /// Biografía corta
+  @override
   final String bio;
 
   /// Ruta al avatar del usuario
+  @override
   final String avatarUrl;
 
   /// Estadísticas de perfil
+  @override
   final int recetas;
+  @override
   final double vistas;
+  @override
   final double seguidores;
   final int resenas;
+  @override
   final String status;
 
   UserProfile({
     // Campos heredados de UserModel
-    String? nombre,
-    String? apellido,
-    String? celular,
-    String? cedula,
-    DateTime? fechaNacimiento,
-    String? correo,
-    String? pais,
-    String? departamento,
-    String? municipio,
-    String? direccion,
-    String? barrio,
-    String? contrasena,
+    super.nombre,
+    super.apellido,
+    super.celular,
+    super.cedula,
+    super.fechaNacimiento,
+    super.correo,
+    super.pais,
+    super.departamento,
+    super.municipio,
+    super.direccion,
+    super.barrio,
+    super.contrasena,
 
     // Campos de UI y estadísticas
     required this.username,
@@ -44,21 +50,9 @@ class UserProfile extends UserModel {
     required this.seguidores,
     required this.resenas,
     required this.status,
-  }) : super(
-         nombre: nombre,
-         apellido: apellido,
-         celular: celular,
-         cedula: cedula,
-         fechaNacimiento: fechaNacimiento,
-         correo: correo,
-         pais: pais,
-         departamento: departamento,
-         municipio: municipio,
-         direccion: direccion,
-         barrio: barrio,
-         contrasena: contrasena,
-       );
+  });
 
   /// Nombre completo del usuario
+  @override
   String get fullName => '${nombre ?? ''} ${apellido ?? ''}';
 }

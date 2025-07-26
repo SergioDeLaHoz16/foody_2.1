@@ -9,12 +9,12 @@ class ProfileTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   const ProfileTile({
-    Key? key,
+    super.key,
     required this.name,
     required this.subtitle,
     required this.avatarUrl,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,12 +8,12 @@ class DocumentCard extends StatelessWidget {
   final bool uploaded;
 
   const DocumentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.iconAsset,
     required this.uploaded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

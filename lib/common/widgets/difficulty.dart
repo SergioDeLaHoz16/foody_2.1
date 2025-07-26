@@ -8,9 +8,8 @@ import 'package:foody/utils/constants/colors.dart';
 class DifficultyIndicator extends StatelessWidget {
   final int level;
 
-  const DifficultyIndicator({Key? key, required this.level})
-    : assert(level >= 1 && level <= 3),
-      super(key: key);
+  const DifficultyIndicator({super.key, required this.level})
+    : assert(level >= 1 && level <= 3);
 
   @override
   Widget build(BuildContext context) {

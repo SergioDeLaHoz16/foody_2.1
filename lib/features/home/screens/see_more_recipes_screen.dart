@@ -9,10 +9,10 @@ class SeeMoreRecipesScreen extends StatelessWidget {
   final List<Recipe> recipes;
 
   const SeeMoreRecipesScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.recipes,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +101,7 @@ class SeeMoreRecipesScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            recipe.preparationTime.inMinutes.toString() +
-                                ' min',
+                            '${recipe.preparationTime.inMinutes} min',
                             style: const TextStyle(fontSize: 12),
                           ),
                           SizedBox(width: 8),

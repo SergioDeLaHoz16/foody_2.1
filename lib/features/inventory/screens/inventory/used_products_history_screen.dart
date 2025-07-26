@@ -5,7 +5,7 @@ import 'package:foody/utils/helpers/helper_functions.dart';
 import 'package:foody/features/auth/controllers/controllers.dart';
 
 class UsedProductsHistoryScreen extends StatefulWidget {
-  const UsedProductsHistoryScreen({Key? key}) : super(key: key);
+  const UsedProductsHistoryScreen({super.key});
 
   @override
   State<UsedProductsHistoryScreen> createState() =>

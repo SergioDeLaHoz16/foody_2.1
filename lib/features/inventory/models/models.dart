@@ -83,7 +83,7 @@ class Product {
       photoUrl: photoUrl ?? this.photoUrl,
       notes: notes ?? this.notes,
       entradas: entradas ?? this.entradas,
-      createdBy: this.createdBy,
+      createdBy: createdBy,
     );
   }
 }

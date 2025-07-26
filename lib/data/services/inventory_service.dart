@@ -1,6 +1,5 @@
 // lib/features/inventory/services/inventory_service.dart
 import 'package:foody/data/repositories/mongodb_helper.dart';
-import 'package:foody/features/inventory/models/models.dart';
 
 class InventoryService {
   Future<void> updateProductQuantity(String productId, int newQuantity) async {

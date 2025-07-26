@@ -17,7 +17,7 @@ class SettingsSection extends StatelessWidget {
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        ...tiles.map((tile) => tile).toList(),
+        ...tiles.map((tile) => tile),
       ],
     );
   }

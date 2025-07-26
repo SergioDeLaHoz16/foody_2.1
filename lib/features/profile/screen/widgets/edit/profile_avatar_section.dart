@@ -7,10 +7,10 @@ class ProfileAvatarSection extends StatelessWidget {
   final String imageUrl;
 
   const ProfileAvatarSection({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.imageUrl,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

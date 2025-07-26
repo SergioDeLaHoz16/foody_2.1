@@ -8,11 +8,11 @@ class ProductSelectionPage extends StatefulWidget {
   final Function(List<Product>) onSelected;
 
   const ProductSelectionPage({
-    Key? key,
+    super.key,
     required this.products,
     required this.selectedProducts,
     required this.onSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductSelectionPage> createState() => _ProductSelectionPageState();

@@ -12,7 +12,7 @@ class ProfileFormSection extends StatelessWidget {
   final VoidCallback onBirthDateTap;
 
   const ProfileFormSection({
-    Key? key,
+    super.key,
     required this.firstNameController,
     required this.lastNameController,
     required this.emailController,
@@ -20,7 +20,7 @@ class ProfileFormSection extends StatelessWidget {
     required this.idController,
     required this.birthDate,
     required this.onBirthDateTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:foody/features/inventory/controllers/controllers.dart';
 import 'package:foody/features/inventory/models/models.dart';
 import 'package:foody/features/inventory/services/inventory_service.dart';
-import 'package:foody/features/recipes/screen/register/widgets/images_recipe_picker.dart';
 import 'package:foody/utils/constants/categories.dart';
 import 'package:foody/utils/constants/colors.dart';
 import 'package:foody/utils/helpers/helper_functions.dart';

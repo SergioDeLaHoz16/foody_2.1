@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foody/utils/constants/colors.dart';
 
 class HeroAdBanner extends StatelessWidget {
   const HeroAdBanner({super.key});

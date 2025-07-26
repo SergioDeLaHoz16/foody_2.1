@@ -70,7 +70,7 @@ class ProductDetailsWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${product.category.isNotEmpty ? product.category : 'Sin categoría'}',
+                  product.category.isNotEmpty ? product.category : 'Sin categoría',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -194,7 +194,7 @@ class ProductDetailsWidget extends StatelessWidget {
                       quantity: entry.quantity,
                       grams: entry.grams,
                     );
-                  }).toList(),
+                  }),
                 ],
               ),
             ),
@@ -251,7 +251,7 @@ class _StockCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${DateFormat.yMMMMd().format(entryDate)}',
+                  DateFormat.yMMMMd().format(entryDate),
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -267,7 +267,7 @@ class _StockCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${DateFormat.yMMMMd().format(expiryDate)}',
+                  DateFormat.yMMMMd().format(expiryDate),
                   style: const TextStyle(fontSize: 12, color: Colors.red),
                 ),
               ],
@@ -306,7 +306,7 @@ class _StockCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text('$remainingText', style: const TextStyle(fontSize: 12)),
+                Text(remainingText, style: const TextStyle(fontSize: 12)),
               ],
             ),
           ],

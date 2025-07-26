@@ -12,6 +12,8 @@ import 'package:foody/utils/constants/categories.dart';
 import 'package:foody/features/home/screens/detail.dart';
 
 class CollectionScreen extends StatelessWidget {
+  const CollectionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userEmail =
@@ -106,8 +108,9 @@ class CollectionScreen extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     final cat = categories[index];
                                     final recipes = grouped[cat]!;
-                                    if (recipes.isEmpty)
+                                    if (recipes.isEmpty) {
                                       return const SizedBox.shrink();
+                                    }
 
                                     final showRecipes =
                                         recipes.length > 3
