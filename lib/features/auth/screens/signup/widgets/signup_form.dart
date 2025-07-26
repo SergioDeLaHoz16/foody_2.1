@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foody/common/widgets/button.dart';
 import 'package:foody/features/auth/screens/signup/widgets/personal_info_section.dart';
 import 'package:foody/features/auth/screens/signup/widgets/email_password_section.dart';
 import 'package:foody/features/auth/screens/signup/widgets/address_section.dart';
@@ -59,18 +60,19 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (!isFirstPage)
-                ElevatedButton(
-                  onPressed: _previousPage,
-                  child: const Text('Atrás'),
+              // if (!isFirstPage)
+              //   Expanded(
+              //     child: WButton(label: 'Atrás', onPressed: _previousPage),
+              //   ),
+              if (!isFirstPage) const SizedBox(width: 12),
+              Expanded(
+                child: WButton(
+                  label: isLastPage ? 'Finalizar' : 'Siguiente',
+                  onPressed: _nextPage,
                 ),
-              ElevatedButton(
-                onPressed: _nextPage,
-                child: Text(isLastPage ? 'Finalizar' : 'Siguiente'),
               ),
             ],
           ),
