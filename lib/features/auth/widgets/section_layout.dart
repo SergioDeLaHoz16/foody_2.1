@@ -63,7 +63,7 @@ class SectionLayout extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Section - $sectionTitle',
+                    'Seccion - $sectionTitle',
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: isDark ? CColors.light : CColors.primaryColor,
                       fontWeight: FontWeight.w600,

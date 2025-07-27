@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:foody/features/auth/controllers/controllers.dart';
+import 'package:foody/features/auth/widgets/section_layout.dart';
 
 class AddressSection extends StatefulWidget {
-  const AddressSection({super.key});
+  final PageController pageController;
+  const AddressSection({super.key, required this.pageController});
 
   @override
   State<AddressSection> createState() => _AddressSectionState();
@@ -73,212 +75,218 @@ class _AddressSectionState extends State<AddressSection> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Dirección',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            readOnly: true,
-            decoration: InputDecoration(
-              labelText: 'País',
-              border: const OutlineInputBorder(),
-              suffixIcon: const Icon(Icons.arrow_drop_down),
-              hintText: selectedCountry ?? 'Seleccione un país',
-            ),
-            onTap: () {
-              showCountryPicker(
-                context: context,
-                showPhoneCode: false,
-                onSelect: (Country country) {
-                  setState(() {
-                    selectedCountry = country.name;
-                    _authController.updateUserField('pais', country.name);
-                    departments = countryToDepartments[country.name] ?? [];
-                    selectedDepartment = null;
-                    municipalities = [];
-                    selectedMunicipality = null;
-                  });
-                },
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              labelText: 'Departamento',
-              border: OutlineInputBorder(),
-            ),
-            value: selectedDepartment,
-            items:
-                departments
-                    .map(
-                      (dept) =>
-                          DropdownMenuItem(value: dept, child: Text(dept)),
-                    )
-                    .toList(),
-            onChanged: (value) {
-              setState(() {
-                selectedDepartment = value;
-                _authController.updateUserField('departamento', value);
-                municipalities = departmentToMunicipalities[value!] ?? [];
-                selectedMunicipality = null;
-                updateDireccionIntegrada();
-              });
-            },
-          ),
-          const SizedBox(height: 12),
-          DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              labelText: 'Municipio',
-              border: OutlineInputBorder(),
-            ),
-            value: selectedMunicipality,
-            items:
-                municipalities
-                    .map(
-                      (mun) => DropdownMenuItem(value: mun, child: Text(mun)),
-                    )
-                    .toList(),
-            onChanged: (value) {
-              setState(() {
-                selectedMunicipality = value;
-                _authController.updateUserField('municipio', value);
-                updateDireccionIntegrada();
-              });
-            },
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'Vía',
-                    border: OutlineInputBorder(),
-                  ),
-                  value: selectedVia,
-                  items:
-                      viasPrincipales
-                          .map(
-                            (via) =>
-                                DropdownMenuItem(value: via, child: Text(via)),
-                          )
-                          .toList(),
-                  onChanged: (value) {
+    return SectionLayout(
+      sectionTitle: 'Dirección',
+      sectionSubtitle: 'Complete su dirección para finalizar el registro.',
+      pageController: widget.pageController,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              readOnly: true,
+              decoration: InputDecoration(
+                labelText: 'País',
+                border: const OutlineInputBorder(),
+                suffixIcon: const Icon(Icons.arrow_drop_down),
+                hintText: selectedCountry ?? 'Seleccione un país',
+              ),
+              onTap: () {
+                showCountryPicker(
+                  context: context,
+                  showPhoneCode: false,
+                  onSelect: (Country country) {
                     setState(() {
-                      selectedVia = value;
-                      updateDireccionIntegrada();
+                      selectedCountry = country.name;
+                      _authController.updateUserField('pais', country.name);
+                      departments = countryToDepartments[country.name] ?? [];
+                      selectedDepartment = null;
+                      municipalities = [];
+                      selectedMunicipality = null;
                     });
                   },
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'Número',
-                    border: OutlineInputBorder(),
-                  ),
-                  value: selectedNumber1,
-                  items:
-                      numbers
-                          .map(
-                            (num) =>
-                                DropdownMenuItem(value: num, child: Text(num)),
-                          )
-                          .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedNumber1 = value;
-                      updateDireccionIntegrada();
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'Letra',
-                    border: OutlineInputBorder(),
-                  ),
-                  value: selectedLetter1,
-                  items:
-                      letters
-                          .map(
-                            (letter) => DropdownMenuItem(
-                              value: letter,
-                              child: Text(letter),
-                            ),
-                          )
-                          .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedLetter1 = value;
-                      updateDireccionIntegrada();
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'Número 2',
-                    border: OutlineInputBorder(),
-                  ),
-                  value: selectedNumber2,
-                  items:
-                      numbers
-                          .map(
-                            (num) =>
-                                DropdownMenuItem(value: num, child: Text(num)),
-                          )
-                          .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedNumber2 = value;
-                      updateDireccionIntegrada();
-                    });
-                  },
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Barrio',
-              border: OutlineInputBorder(),
+                );
+              },
             ),
-            onChanged: (value) {
-              setState(() {
-                barrio = value;
-                _authController.updateUserField('barrio', value);
-                updateDireccionIntegrada();
-              });
-            },
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            readOnly: true,
-            controller: TextEditingController(text: direccionIntegrada),
-            decoration: const InputDecoration(
-              labelText: 'Dirección Integrada',
-              border: OutlineInputBorder(),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: 'Departamento',
+                border: OutlineInputBorder(),
+              ),
+              value: selectedDepartment,
+              items:
+                  departments
+                      .map(
+                        (dept) =>
+                            DropdownMenuItem(value: dept, child: Text(dept)),
+                      )
+                      .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedDepartment = value;
+                  _authController.updateUserField('departamento', value);
+                  municipalities = departmentToMunicipalities[value!] ?? [];
+                  selectedMunicipality = null;
+                  updateDireccionIntegrada();
+                });
+              },
             ),
-          ),
-        ],
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(
+                labelText: 'Municipio',
+                border: OutlineInputBorder(),
+              ),
+              value: selectedMunicipality,
+              items:
+                  municipalities
+                      .map(
+                        (mun) => DropdownMenuItem(value: mun, child: Text(mun)),
+                      )
+                      .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedMunicipality = value;
+                  _authController.updateUserField('municipio', value);
+                  updateDireccionIntegrada();
+                });
+              },
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Vía',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedVia,
+                    items:
+                        viasPrincipales
+                            .map(
+                              (via) => DropdownMenuItem(
+                                value: via,
+                                child: Text(via),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedVia = value;
+                        updateDireccionIntegrada();
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Número',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedNumber1,
+                    items:
+                        numbers
+                            .map(
+                              (num) => DropdownMenuItem(
+                                value: num,
+                                child: Text(num),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedNumber1 = value;
+                        updateDireccionIntegrada();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Letra',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedLetter1,
+                    items:
+                        letters
+                            .map(
+                              (letter) => DropdownMenuItem(
+                                value: letter,
+                                child: Text(letter),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedLetter1 = value;
+                        updateDireccionIntegrada();
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Número 2',
+                      border: OutlineInputBorder(),
+                    ),
+                    value: selectedNumber2,
+                    items:
+                        numbers
+                            .map(
+                              (num) => DropdownMenuItem(
+                                value: num,
+                                child: Text(num),
+                              ),
+                            )
+                            .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedNumber2 = value;
+                        updateDireccionIntegrada();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Barrio',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  barrio = value;
+                  _authController.updateUserField('barrio', value);
+                  updateDireccionIntegrada();
+                });
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              readOnly: true,
+              controller: TextEditingController(text: direccionIntegrada),
+              decoration: const InputDecoration(
+                labelText: 'Dirección Integrada',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

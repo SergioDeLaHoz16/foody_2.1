@@ -19,8 +19,8 @@ class _SignUpFormState extends State<SignUpForm> {
   List<Widget> get _pages => [
     PersonalInfoSection(pageController: _pageController),
     EmailPasswordSection(pageController: _pageController),
-    // AddressSection(pageController: _pageController),
-    // TermsAndSubmitSection(pageController: _pageController),
+    AddressSection(pageController: _pageController),
+    TermsAndSubmitSection(pageController: _pageController),
   ];
 
   void _nextPage() {
@@ -60,7 +60,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child:
               isFirstPage
                   ? Row(
