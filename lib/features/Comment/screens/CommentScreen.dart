@@ -40,14 +40,13 @@ class _CommentScreenState extends State<CommentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        comment.userName, // Mostrar el nombre del usuario
+                        comment.userName.toUpperCase(),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 4),
-                      Text(comment.content),
+                      Text(comment.content.toUpperCase()),
                     ],
                   ),
-                  subtitle: Text('Rating: ${comment.rating}'),
+                  subtitle: Text('Ratings: ${comment.rating}'),
                 );
               },
             ),
