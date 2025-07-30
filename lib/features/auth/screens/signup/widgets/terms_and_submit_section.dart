@@ -1,47 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:foody/features/auth/controllers/controllers.dart';
 import 'package:foody/features/auth/widgets/section_layout.dart';
 import 'package:foody/utils/constants/colors.dart';
 import 'package:foody/utils/helpers/helper_functions.dart';
 import 'package:foody/common/widgets/button.dart';
 
-class TermsAndSubmitSection extends StatefulWidget {
+class TermsAndSubmitSection extends StatelessWidget {
   final PageController pageController;
-  const TermsAndSubmitSection({super.key, required this.pageController});
+  final bool acceptTerms;
+  final ValueChanged<bool?> onTermsChanged;
 
-  @override
-  State<TermsAndSubmitSection> createState() => _TermsAndSubmitSectionState();
-}
-
-class _TermsAndSubmitSectionState extends State<TermsAndSubmitSection> {
-  final AuthController _authController = AuthController();
-  bool _acceptedTerms = false;
-
-  void _submit() async {
-    if (!_acceptedTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Debes aceptar los términos y condiciones'),
-        ),
-      );
-      return;
-    }
-
-    final success = await _authController.registerUser();
-
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuario registrado exitosamente')),
-      );
-      Navigator.of(context).pushReplacementNamed('/home');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error al registrar usuario o faltan campos'),
-        ),
-      );
-    }
-  }
+  const TermsAndSubmitSection({
+    super.key,
+    required this.pageController,
+    required this.acceptTerms,
+    required this.onTermsChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +25,7 @@ class _TermsAndSubmitSectionState extends State<TermsAndSubmitSection> {
       sectionTitle: 'Términos y condiciones',
       sectionSubtitle:
           'Antes de crear tu cuenta, por favor lee y acepta nuestros términos y condiciones.',
-      pageController: widget.pageController,
+      pageController: pageController,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -87,12 +60,8 @@ class _TermsAndSubmitSectionState extends State<TermsAndSubmitSection> {
           ),
           const SizedBox(height: 16),
           CheckboxListTile(
-            value: _acceptedTerms,
-            onChanged: (value) {
-              setState(() {
-                _acceptedTerms = value ?? false;
-              });
-            },
+            value: acceptTerms,
+            onChanged: onTermsChanged,
             title: const Text('Acepto los términos y condiciones'),
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
@@ -105,8 +74,7 @@ class _TermsAndSubmitSectionState extends State<TermsAndSubmitSection> {
                   label: 'Declinar',
                   onPressed: () => Navigator.of(context).pop(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        isDark ? CColors.borderError : CColors.borderError,
+                    backgroundColor: CColors.borderError,
                     foregroundColor: Colors.white,
                   ),
                 ),

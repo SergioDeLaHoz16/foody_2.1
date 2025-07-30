@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foody/features/favorites/screens/widgets/favorite_search_bar.dart';
-import 'package:foody/features/favorites/screens/widgets/grouped_favorites_list.dart';
+import 'package:foody/features/favorites/screens/favorites/widgets/favorite_search_bar.dart';
+import 'package:foody/features/favorites/screens/favorites/widgets/grouped_favorites_list.dart';
 import 'package:provider/provider.dart';
 import 'package:foody/utils/helpers/helper_functions.dart';
 import 'package:foody/utils/constants/colors.dart';

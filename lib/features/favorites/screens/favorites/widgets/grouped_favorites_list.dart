@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foody/features/favorites/screens/widgets/category_favorite_section.dart';
+import 'package:foody/features/favorites/screens/favorites/widgets/category_favorite_section.dart';
 import 'package:foody/features/recipes/models/models.dart';
 import 'package:foody/utils/constants/categories.dart';
 
